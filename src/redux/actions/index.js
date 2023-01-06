@@ -7,6 +7,8 @@ export const loginAction = (email) => ({
   email,
 });
 
+// -----------------------------------------------------------------------------------------------------------------
+
 export const API_ACTION = 'API_ACTION';
 
 export const apiAction = (currencyArray) => ({
@@ -27,3 +29,12 @@ export function saveCurrencies() {
     dispatch(apiAction(currencies));
   };
 }
+
+//--------------------------------------------------------------------------------------------------------------------
+
+export const EXPENSES_ACTION = 'EXPENSES_ACTION';
+
+export const expensesAction = (expenses) => ({
+  type: EXPENSES_ACTION,
+  expenses,
+});
