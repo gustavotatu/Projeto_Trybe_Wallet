@@ -1,37 +1,22 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { deleteExpense } from '../redux/actions';
 
 class Table extends Component {
   constructor() {
     super();
-    this.state = {
-      tds: [],
-    };
+    this.deleteExpense = this.deleteExpense.bind(this);
   }
 
-  componentDidUpdate(previousProps) {
-    const { expenses } = this.props;
-    const result = expenses.map(
-      (obj) => [obj.description,
-        obj.tag,
-        obj.method,
-        Number(obj.value).toFixed(2),
-        obj.exchangeRates[obj.currency].name,
-        Number(obj.exchangeRates[obj.currency].ask).toFixed(2),
-        Number(obj.value * obj.exchangeRates[obj.currency].ask).toFixed(2),
-        'Real'],
-    );
-    if (previousProps.expenses !== expenses) {
-      console.log(result);
-      this.setState({
-        tds: [result],
-      });
-    }
+  deleteExpense({ target: { id } }) {
+    const { expenses, dispatch } = this.props;
+    const deletion = expenses.filter((obj) => obj.id !== Number(id));
+    dispatch(deleteExpense(deletion));
   }
 
   render() {
-    const { tds } = this.state;
+    const { expenses } = this.props;
     return (
       <table>
         <thead>
@@ -50,11 +35,29 @@ class Table extends Component {
         <tbody>
           <tr>
             <tr>
-              { tds !== undefined && tds.map((array) => (
-                array.map((value) => (
-                  <td key={ value }>{ value }</td>
-                ))
-              )) }
+              { expenses.length > 0 && expenses.map((obj) => (
+                <tr key={ obj.description }>
+                  <td key={ obj.description }>{ obj.description }</td>
+                  <td>{ obj.tag }</td>
+                  <td>{ obj.method }</td>
+                  <td>{ Number(obj.value).toFixed(2) }</td>
+                  <td>{ obj.exchangeRates[obj.currency].name }</td>
+                  <td>{ Number(obj.exchangeRates[obj.currency].ask).toFixed(2) }</td>
+                  <td>
+                    { Number(obj.value * obj.exchangeRates[obj.currency].ask).toFixed(2) }
+                  </td>
+                  <td>Real</td>
+                  <td>
+                    <button
+                      id={ obj.id }
+                      type="button"
+                      data-testid="delete-btn"
+                      onClick={ this.deleteExpense }
+                    >
+                      Excluir
+                    </button>
+                  </td>
+                </tr>)) }
             </tr>
           </tr>
         </tbody>
@@ -69,6 +72,7 @@ const mapStateToProps = (state) => ({
 
 Table.propTypes = {
   expenses: propTypes.arrayOf.isRequired,
+  dispatch: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(Table);

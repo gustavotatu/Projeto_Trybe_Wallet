@@ -38,3 +38,12 @@ export const expensesAction = (expenses) => ({
   type: EXPENSES_ACTION,
   expenses,
 });
+
+//------------------------------------------------------------------------------------------------------------------------
+
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+
+export const deleteExpense = (expense) => ({
+  type: DELETE_EXPENSE,
+  expense,
+});
