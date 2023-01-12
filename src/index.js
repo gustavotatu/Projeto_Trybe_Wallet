@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import Login from './pages/Login';
 import Wallet from './pages/Wallet';
+import Edit from './components/Edit';
 import * as serviceWorker from './serviceWorker';
 import store from './redux/store';
 
@@ -17,6 +18,7 @@ ReactDOM
         <App />
         <Route exact path="/" component={ Login } />
         <Route exact path="/carteira" component={ Wallet } />
+        <Route exact path="/editar" component={ Edit } />
       </BrowserRouter>
     </Provider>,
   );

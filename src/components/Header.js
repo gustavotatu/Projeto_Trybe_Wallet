@@ -10,13 +10,27 @@ class Header extends Component {
     };
   }
 
+  componentDidMount() {
+    const { expenses } = this.props;
+    if (expenses.length > 0) {
+      const currencies = expenses.map((obj) => obj.currency);
+      const values = expenses.map((obj) => obj.value);
+      const finalValues = [];
+      for (let i = 0; i < expenses.length; i += 1) {
+        finalValues.push(expenses[i].exchangeRates[currencies[i]].ask * values[i]);
+      }
+      const result = finalValues.reduce((acc, cur) => acc + cur, 0);
+      this.setState({
+        finalExpenses: Number(result).toFixed(2),
+      });
+    }
+  }
+
   componentDidUpdate(previousProps) {
     const { expenses } = this.props;
     const currencies = expenses.map((obj) => obj.currency);
     const values = expenses.map((obj) => obj.value);
     const finalValues = [];
-    console.log(expenses);
-    console.log(expenses[0]);
     for (let i = 0; i < expenses.length; i += 1) {
       finalValues.push(expenses[i].exchangeRates[currencies[i]].ask * values[i]);
     }

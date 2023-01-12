@@ -47,3 +47,12 @@ export const deleteExpense = (expense) => ({
   type: DELETE_EXPENSE,
   expense,
 });
+
+//----------------------------------------------------------------------------------------------------------------------
+
+export const EDIT_EXPENSE = 'EDIT_EXPENSE';
+
+export const editExp = (edExpense) => ({
+  type: EDIT_EXPENSE,
+  edExpense,
+});
